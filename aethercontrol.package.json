@@ -1,0 +1,16 @@
+{
+  "name": "aethercontrol-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "AetherControl monorepo scaffold",
+  "workspaces": [
+    "apps/*",
+    "workers/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "core:start": "node apps/aether-core/src/server.js",
+    "flow:start": "node workers/aether-flow/src/worker.js"
+  }
+}
+
