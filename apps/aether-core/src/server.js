@@ -1,29 +1,17 @@
-import http from "node:http";
-
-const PORT = Number.parseInt(process.env.PORT ?? "4100", 10);
+const http = require('http');
 
 const server = http.createServer((req, res) => {
-  if (req.method === "GET" && req.url === "/health") {
-    const body = JSON.stringify({
-      status: "ok",
-      service: "aether-core"
-    });
-
-    res.writeHead(200, {
-      "content-type": "application/json",
-      "content-length": Buffer.byteLength(body)
-    });
-    res.end(body);
+  if (req.url === '/health') {
+    res.writeHead(200, { 'content-type': 'application/json' });
+    res.end(JSON.stringify({ status: 'ok', service: 'aether-core' }));
     return;
   }
 
-  res.writeHead(404, {
-    "content-type": "application/json"
-  });
-  res.end(JSON.stringify({ error: "not_found" }));
+  res.writeHead(404, { 'content-type': 'application/json' });
+  res.end(JSON.stringify({ error: 'Not found' }));
 });
 
-server.listen(PORT, () => {
-  console.log(`aether-core listening on port ${PORT}`);
+const port = process.env.PORT || 4100;
+server.listen(port, () => {
+  console.log(`Aether Core listening on ${port}`);
 });
-

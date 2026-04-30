@@ -1,10 +1,10 @@
 {
-  "name": "@aethercontrol/aether-flow",
-  "version": "0.1.0",
+  "name": "@aether/flow-worker",
   "private": true,
-  "type": "module",
+  "version": "0.1.0",
   "scripts": {
-    "start": "node src/worker.js"
+    "dev": "node src/worker.js",
+    "build": "echo 'Flow worker scaffold build'",
+    "lint": "echo 'Flow worker scaffold lint'"
   }
 }
-

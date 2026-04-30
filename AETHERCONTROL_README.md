@@ -1,26 +1,46 @@
 # AetherControl
 
-AetherControl is a monorepo scaffold for coordinating agents, console workflows, shared contracts, and background flow workers.
+**AetherControl = The control plane for autonomous agents.**
 
-## Workspace Layout
+Tagline: **Autonomy, under control.**
 
-- `apps/aether-core`: Core HTTP service.
-- `apps/aether-console`: Console application scaffold.
-- `workers/aether-flow`: Background worker scaffold.
-- `packages/aether-contracts`: Shared TypeScript contracts.
-- `docs/aethercontrol`: Architecture and export notes.
+## Product layers
 
-## Quick Start
+- **AetherControl (platform)**
+- **Projects** (cash-copilot, future apps)
+- **Agents** (marketing, dev, ops)
+- **Tasks** (campaigns, posts, updates)
+- **Policies** (budget, approvals, limits)
 
-Run the core service:
+## Internal component names
+
+- **AetherControl Core** -> backend/control plane API
+- **Aether Console** -> web dashboard
+- **Aether Agents** -> agent runtime workers
+- **Aether Guard** -> budget + approval policy engine
+- **Aether Flow** -> task orchestration + execution queue
+- **Aether Logs** -> audit stream + timeline
+
+## Monorepo scaffold
+
+- `apps/aether-console` - dashboard shell
+- `apps/aether-core` - control plane API shell
+- `workers/aether-flow` - orchestration worker shell
+- `packages/aether-contracts` - shared agent/task/policy contracts
+- `docs/aethercontrol/v1-architecture.md` - v1 architecture and rollout
+
+## Next steps
+
+1. Implement persistent storage (Postgres) and migrations.
+2. Add Redis queue and worker retry policies.
+3. Add auth and role-based access control.
+4. Implement budget guardrails and approval gates.
+5. Enable first integrations (Google Ads + RevenueCat).
+
+## Quick start
 
 ```bash
-node apps/aether-core/src/server.js
+npm run dev --prefix apps/aether-core
 ```
 
-Run the flow worker:
-
-```bash
-node workers/aether-flow/src/worker.js
-```
-
+Health check: `http://localhost:4100/health` after starting `apps/aether-core/src/server.js`.

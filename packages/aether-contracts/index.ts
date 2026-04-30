@@ -1,33 +1,33 @@
-export type AgentType = "planner" | "builder" | "reviewer" | "operator";
+export type AgentType = 'marketing' | 'dev' | 'ops';
 
 export type TaskStatus =
-  | "queued"
-  | "running"
-  | "blocked"
-  | "completed"
-  | "failed"
-  | "cancelled";
+  | 'pending'
+  | 'awaiting_approval'
+  | 'approved'
+  | 'running'
+  | 'succeeded'
+  | 'failed'
+  | 'paused';
 
-export type BudgetPolicy = {
-  maxRuntimeSeconds: number;
-  maxCostUsd?: number;
-  requireApprovalAboveUsd?: number;
-};
+export interface BudgetPolicy {
+  currency: 'EUR' | 'USD';
+  weeklyLimit: number;
+  dailyLimit: number;
+  actionApprovalThreshold: number;
+}
 
-export type AgentTask = {
+export interface AgentTask {
   id: string;
-  type: AgentType;
+  projectId: string;
+  agentType: AgentType;
   status: TaskStatus;
-  title: string;
-  instructions: string;
-  budgetPolicy: BudgetPolicy;
+  objective: string;
+  estimatedCost: number;
   createdAt: string;
-  updatedAt: string;
-};
+}
 
-export type GuardDecision = {
+export interface GuardDecision {
   allowed: boolean;
-  reason?: string;
-  requiredApprovals?: string[];
-};
-
+  reason: string;
+  requiresManualApproval: boolean;
+}

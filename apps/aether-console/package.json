@@ -1,10 +1,10 @@
 {
-  "name": "@aethercontrol/aether-console",
-  "version": "0.1.0",
+  "name": "@aether/console",
   "private": true,
-  "type": "module",
+  "version": "0.1.0",
   "scripts": {
-    "dev": "echo \"aether-console scaffold\""
+    "dev": "echo 'Console scaffold: add Next.js init here'",
+    "build": "echo 'Console scaffold build'",
+    "lint": "echo 'Console scaffold lint'"
   }
 }
-

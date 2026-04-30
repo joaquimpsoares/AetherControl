@@ -1,10 +1,10 @@
 {
-  "name": "@aethercontrol/aether-core",
-  "version": "0.1.0",
+  "name": "@aether/core",
   "private": true,
-  "type": "module",
+  "version": "0.1.0",
   "scripts": {
-    "start": "node src/server.js"
+    "dev": "node src/server.js",
+    "build": "echo 'Core scaffold build'",
+    "lint": "echo 'Core scaffold lint'"
   }
 }
-

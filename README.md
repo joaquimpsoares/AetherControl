@@ -1,14 +1,15 @@
 # AetherControl
 
+AetherControl is the control plane for autonomous agents.
+
 ## AetherControl scaffold location
 
-The AetherControl scaffold lives in this repository under:
+AetherControl scaffold files are currently in this repository at:
 
+- `AETHERCONTROL_README.md`
+- `AETHERCONTROL_START_HERE.md`
 - `apps/aether-core`
 - `apps/aether-console`
 - `workers/aether-flow`
 - `packages/aether-contracts`
-- `docs/aethercontrol`
-
-See `AETHERCONTROL_START_HERE.md` for the initial orientation.
-
+- `docs/aethercontrol/v1-architecture.md`

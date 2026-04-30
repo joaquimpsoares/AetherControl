@@ -1,16 +1,23 @@
-# Aether Core
+# AetherControl Core
 
-Core HTTP service for AetherControl.
+Control plane API for projects, agents, tasks, approvals, and policy checks.
 
-## Run
+## Planned modules
 
-```bash
-node src/server.js
-```
+- `projects`
+- `agents`
+- `tasks`
+- `approvals`
+- `policies`
+- `integrations`
+- `audit`
 
-Health endpoint:
+## Planned endpoints (v1)
 
-```http
-GET /health
-```
-
+- `POST /projects`
+- `GET /projects/:projectId/overview`
+- `POST /agents`
+- `POST /tasks`
+- `POST /tasks/:taskId/approve`
+- `POST /tasks/:taskId/reject`
+- `POST /budgets/check`

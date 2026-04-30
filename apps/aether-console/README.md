@@ -1,6 +1,19 @@
 # Aether Console
 
-Console application scaffold for AetherControl.
+Web dashboard for observing and controlling all projects and agents.
 
-This package is reserved for the operator-facing interface that will consume `aether-core` APIs and shared contracts from `packages/aether-contracts`.
+## Views (v1)
 
+- Projects
+- Agents
+- Tasks
+- Approvals
+- Budgets
+- Logs
+
+## Widgets
+
+- Live activity feed
+- Spend/KPI cards
+- Pending approvals inbox
+- Task execution timeline

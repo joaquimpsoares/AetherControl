@@ -1,9 +1,6 @@
 {
-  "name": "@aethercontrol/aether-contracts",
-  "version": "0.1.0",
+  "name": "@aether/contracts",
   "private": true,
-  "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts"
+  "version": "0.1.0",
+  "types": "index.ts"
 }
-
