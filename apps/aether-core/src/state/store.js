@@ -194,6 +194,7 @@ module.exports = {
   addLog,
   createArtifact,
   createRun,
+  DATA_FILE,
   listArtifactsForTask,
   loadState,
   now,

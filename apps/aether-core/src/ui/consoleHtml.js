@@ -440,9 +440,18 @@ function renderConsoleHtml() {
           <div class="hero-actions">
             <span class="status">Core online :4100</span>
             <button class="secondary" id="refresh-button" type="button">Refresh</button>
+            <button class="secondary" id="status-button" type="button">Check status</button>
             <button class="secondary" id="seed-button" type="button">Seed demo</button>
             <button class="danger" id="reset-button" type="button">Reset</button>
           </div>
+        </section>
+
+        <section>
+          <div class="item-head">
+            <h2>System Status</h2>
+            <span class="badge" id="system-status-summary">unchecked</span>
+          </div>
+          <div id="system-status-list" class="list"></div>
         </section>
 
         <section>
@@ -497,7 +506,7 @@ function renderConsoleHtml() {
     </main>
 
     <script>
-      const state = { projects: [], goals: [], agents: [], tasks: [], runs: [], logs: [], artifacts: [], connectionChecks: {} };
+      const state = { projects: [], goals: [], agents: [], tasks: [], runs: [], logs: [], artifacts: [], connectionChecks: {}, systemStatus: null };
       const toast = document.querySelector('#toast');
       const projectSelects = document.querySelectorAll('select[name="projectId"]');
       const goalSelect = document.querySelector('select[name="goalId"]');
@@ -727,6 +736,34 @@ function renderConsoleHtml() {
         document.querySelector('#metric-agents').textContent = state.agents.length;
       }
 
+      function renderSystemStatus() {
+        const list = document.querySelector('#system-status-list');
+        const summary = document.querySelector('#system-status-summary');
+        if (!state.systemStatus) {
+          summary.textContent = 'unchecked';
+          list.innerHTML = '<div class="empty">Check status to verify Core, persistence, GitHub, OpenAI, and project connections.</div>';
+          return;
+        }
+
+        const status = state.systemStatus;
+        const rows = [
+          ['Core API', status.core.ok, 'Port ' + status.core.port + ' · ' + status.core.checkedAt],
+          ['Persistence', status.persistence.ok, status.persistence.path],
+          ['GitHub token', status.github.tokenConfigured, status.github.connectedProjects + ' GitHub-connected project(s)'],
+          ['OpenAI', status.openai.apiKeyConfigured, status.openai.mode + ' · model ' + status.openai.model],
+          ['Project connections', status.projects.localConnections + status.projects.remoteConnections > 0, status.projects.localConnections + ' local · ' + status.projects.remoteConnections + ' remote'],
+        ];
+
+        summary.textContent = rows.every((row) => row[1]) ? 'ready' : 'partial';
+        summary.className = 'badge ' + (rows.every((row) => row[1]) ? 'ok' : 'awaiting_approval');
+        list.innerHTML = rows.map((row) => {
+          return '<article class="item">' +
+            '<div class="item-head"><strong>' + row[0] + '</strong><span class="badge ' + (row[1] ? 'ok' : 'error') + '">' + (row[1] ? 'ok' : 'missing') + '</span></div>' +
+            '<div class="meta">' + row[2] + '</div>' +
+          '</article>';
+        }).join('');
+      }
+
       async function refresh() {
         const [projectsResponse, goalsResponse, agentsResponse, tasksResponse, runsResponse, logsResponse, artifactsResponse] = await Promise.all([
           api('/projects'),
@@ -755,6 +792,13 @@ function renderConsoleHtml() {
         renderArtifacts();
         renderLogs();
         renderMetrics();
+        renderSystemStatus();
+      }
+
+      async function checkSystemStatus() {
+        state.systemStatus = await api('/system/status');
+        renderSystemStatus();
+        setToast('System status checked.');
       }
 
       document.querySelector('#project-form').addEventListener('submit', async (event) => {
@@ -917,6 +961,7 @@ function renderConsoleHtml() {
       });
 
       document.querySelector('#refresh-button').addEventListener('click', refresh);
+      document.querySelector('#status-button').addEventListener('click', checkSystemStatus);
       document.querySelector('#seed-button').addEventListener('click', async () => {
         await api('/state/seed-demo', { method: 'POST' });
         setToast('Demo data seeded.');

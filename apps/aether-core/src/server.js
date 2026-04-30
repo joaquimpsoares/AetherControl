@@ -7,6 +7,7 @@ const { runTask } = require('./domain/executors');
 const { renderConsoleHtml } = require('./ui/consoleHtml');
 const {
   addLog,
+  DATA_FILE,
   loadState,
   now,
   resetState,
@@ -249,6 +250,37 @@ async function handleRequest(req, res) {
 
   if (req.method === 'GET' && url.pathname === '/health') {
     sendJson(res, 200, { status: 'ok', service: 'aether-core' });
+    return;
+  }
+
+  if (req.method === 'GET' && url.pathname === '/system/status') {
+    const projects = [...state.projects.values()];
+    sendJson(res, 200, {
+      core: {
+        ok: true,
+        service: 'aether-core',
+        port,
+        checkedAt: now(),
+      },
+      persistence: {
+        ok: fs.existsSync(DATA_FILE),
+        path: DATA_FILE,
+      },
+      github: {
+        tokenConfigured: Boolean(process.env.GITHUB_TOKEN),
+        connectedProjects: projects.filter((project) => project.connection && project.connection.githubRepo).length,
+      },
+      openai: {
+        apiKeyConfigured: Boolean(process.env.OPENAI_API_KEY),
+        model: process.env.AETHER_OPENAI_MODEL || 'gpt-5.2',
+        mode: process.env.OPENAI_API_KEY ? 'openai' : 'fallback',
+      },
+      projects: {
+        total: projects.length,
+        localConnections: projects.filter((project) => project.connection && project.connection.repositoryPath).length,
+        remoteConnections: projects.filter((project) => project.connection && project.connection.githubRepo).length,
+      },
+    });
     return;
   }
 
